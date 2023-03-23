@@ -1,7 +1,25 @@
 #hangman
 import re
+import pandas as pd
+import random
 
 
+file = pd.read_csv('C:\\Users\\Erin\\AppData\\\Local\\Programs\\Python\\Python311\\4000-most-common-english-words-csv.csv')
+'''
+print(file)
+
+# Get the list of all column names from headers
+column_names = list(file.columns.values)
+#print(column_names)
+#print(file.loc[[random.randint(0, 4000)]])
+print(file['Words'].values[random.randint(0, 4000)])
+
+string = "erin"
+if string == file['Words'].values[random.randint(0, 4000)]:
+    print("Yay")
+else:
+    print("done")
+    '''
 '''
 1. Get a random word from a CSV file?
 2. Show user how many letters are in the word 
@@ -10,7 +28,7 @@ Loop:
 4. Evaluate
 5. If wrong: add strike and draw new part of the hangman
 6. If right: fill in letter in correct blank
-
+r
 When user reaches 7 strikes, they lose the game and are prompted to replay or quit.
 When user fills in word, they win and are prompted to replay or quit.
 '''
@@ -24,13 +42,14 @@ def isSpecialCharacter(string):
        return False
 
 #first attempt at Hangman ASCII art :)
-game_string='''  -----\n  |    |\n  |\n__|__'''
+
+
 want_to_play = True
 
 while want_to_play == True:
     
     #currently the right answer is hardcoded
-    game_answer="popcorn"
+    game_answer=file['Words'].values[random.randint(0, 4000)]
     user_guess= ""
     used_letters = []
     strikes = 0
@@ -38,7 +57,7 @@ while want_to_play == True:
     isYorN = False
 
     print("Your secret word has " + str(len(game_answer)) + " letters.")
-    print(secret_word + "/n")
+    print(secret_word + "\n")
         
     while secret_word.replace(" ", "") != game_answer and strikes < 7:
 
@@ -63,17 +82,16 @@ while want_to_play == True:
                 position = 0
                 # Check each letter in the answer to see if it contains the user input letter. If it does, replace.
                 for character in game_answer:
-                    #for debugging
-                    print("current character: " + character)
-                    
+                 
                     if character == user_guess_letter:
                            secret_word = secret_word[:position] + user_guess_letter + secret_word[(position+1):]
-                           #for debugging
-                           print("current secret word is: " + secret_word)
+                                              
 
                     #incrementing by 2 here because the underscores need to be separated by spaces to be readable, which adds one more position in the string
                     position += 2
-                    
+                print("Correct!")
+                print("This is how much of the word you have revealed : " + secret_word)  
+
             else:
                 strikes = strikes + 1
                 print("That's not in the secret word.")
